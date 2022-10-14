@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, View, FlatList, Button } from 'react-native';
 import GoalItem from './components/GoalItem';
 import GoalInput from './components/GoalInput';
+import { StatusBar } from 'expo-status-bar';
 
 export default function App() {
   const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -34,19 +35,21 @@ export default function App() {
   };
 
   return (
-    <View style={styles.appContainer}>
-      <Button
-        title='Add New Goal'
-        color='#5e0acc'
-        onPress={startAddGoalHandler}
-      />
-      <GoalInput
-        visible={modalIsVisible}
-        onAddGoal={addGoalHandler}
-        onCancel={endAddGoalHandler}
-      />
-      <View style={styles.goalsContainer}>
-        {/* 
+    <>
+      <StatusBar style='light' />
+      <View style={styles.appContainer}>
+        <Button
+          title='Add New Goal'
+          color='#ab72f5'
+          onPress={startAddGoalHandler}
+        />
+        <GoalInput
+          visible={modalIsVisible}
+          onAddGoal={addGoalHandler}
+          onCancel={endAddGoalHandler}
+        />
+        <View style={styles.goalsContainer}>
+          {/* 
           ScrollView is great for articles that might be long,
           but FlatList is better for list items because ScrollView
           renders all the items on the list even if they are not on the screen 
@@ -55,34 +58,35 @@ export default function App() {
           Flat list will only render the itesm currently on the screen.  All the items
           off screen will be rendered 'lazily' as the user scrolls.
         */}
-        <FlatList
-          data={courseGoals}
-          renderItem={(itemData) => {
-            return (
-              <GoalItem
-                text={itemData.item.text}
-                id={itemData.item.id}
-                onDeleteItem={deleteGoalHandler}
-              />
-            );
-          }}
-          // KeyExtractor is useful if you have outside data that does not
-          // have a key but does have an id.  Use KeyExtractor to use the
-          // id as the key for FlatList
-          //
-          KeyExtractor={(item, index) => {
-            return item.id;
-          }}
-          alwaysBounceHorizontal={false}
-        />
-        {/* With FlatList, we no longer map our data manualy */}
-        {/* {courseGoals.map((goal) => ( */}
-        {/* <View style={styles.goalItem} key={goal}>
+          <FlatList
+            data={courseGoals}
+            renderItem={(itemData) => {
+              return (
+                <GoalItem
+                  text={itemData.item.text}
+                  id={itemData.item.id}
+                  onDeleteItem={deleteGoalHandler}
+                />
+              );
+            }}
+            // KeyExtractor is useful if you have outside data that does not
+            // have a key but does have an id.  Use KeyExtractor to use the
+            // id as the key for FlatList
+            //
+            KeyExtractor={(item, index) => {
+              return item.id;
+            }}
+            alwaysBounceHorizontal={false}
+          />
+          {/* With FlatList, we no longer map our data manualy */}
+          {/* {courseGoals.map((goal) => ( */}
+          {/* <View style={styles.goalItem} key={goal}>
             <Text style={styles.goalText}>{goal}</Text>
           </View> */}
-        {/* ))} */}
+          {/* ))} */}
+        </View>
       </View>
-    </View>
+    </>
   );
 }
 
