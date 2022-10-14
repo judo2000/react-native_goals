@@ -1,10 +1,19 @@
 import { useState } from 'react';
-import { StyleSheet, View, FlatList, KeyExtractor } from 'react-native';
+import { StyleSheet, View, FlatList, Button } from 'react-native';
 import GoalItem from './components/GoalItem';
 import GoalInput from './components/GoalInput';
 
 export default function App() {
+  const [modalIsVisible, setModalIsVisible] = useState(false);
   const [courseGoals, setCourseGoals] = useState([]);
+
+  const startAddGoalHandler = () => {
+    setModalIsVisible(true);
+  };
+
+  const endAddGoalHandler = () => {
+    setModalIsVisible(false);
+  };
 
   function addGoalHandler(enteredGoalText) {
     if (enteredGoalText === '') return;
@@ -15,6 +24,7 @@ export default function App() {
       ...currentCourseGoals,
       { text: enteredGoalText, id: Math.random().toString() },
     ]);
+    endAddGoalHandler();
   }
 
   const deleteGoalHandler = (id) => {
@@ -25,7 +35,16 @@ export default function App() {
 
   return (
     <View style={styles.appContainer}>
-      <GoalInput onAddGoal={addGoalHandler} />
+      <Button
+        title='Add New Goal'
+        color='#5e0acc'
+        onPress={startAddGoalHandler}
+      />
+      <GoalInput
+        visible={modalIsVisible}
+        onAddGoal={addGoalHandler}
+        onCancel={endAddGoalHandler}
+      />
       <View style={styles.goalsContainer}>
         {/* 
           ScrollView is great for articles that might be long,
@@ -51,7 +70,7 @@ export default function App() {
           // have a key but does have an id.  Use KeyExtractor to use the
           // id as the key for FlatList
           //
-          keyExtractor={(item, index) => {
+          KeyExtractor={(item, index) => {
             return item.id;
           }}
           alwaysBounceHorizontal={false}
@@ -70,11 +89,13 @@ export default function App() {
 const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
+    marginTop: 20,
     paddingTop: 50,
     paddingHorizontal: 16,
   },
 
   goalsContainer: {
     flex: 5,
+    marginTop: 20,
   },
 });
