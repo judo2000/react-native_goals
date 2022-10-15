@@ -11,14 +11,14 @@ import {
 const GoalInput = (props) => {
   const [enteredGoalText, setEnteredGoalText] = useState('');
 
-  function goalInputHandler(enteredText) {
+  const goalInputHandler = (enteredText) => {
     setEnteredGoalText(enteredText);
-  }
+  };
 
-  function addGoalHandler() {
+  const addGoalHandler = () => {
     props.onAddGoal(enteredGoalText);
     setEnteredGoalText('');
-  }
+  };
 
   return (
     <Modal visible={props.visible} animationType='slide'>
@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: 16,
+    marginBottom: 60,
     flexDirection: 'row',
   },
   button: {

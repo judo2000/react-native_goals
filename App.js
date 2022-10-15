@@ -16,7 +16,7 @@ export default function App() {
     setModalIsVisible(false);
   };
 
-  function addGoalHandler(enteredGoalText) {
+  const addGoalHandler = (enteredGoalText) => {
     if (enteredGoalText === '') return;
 
     // this is a best practice of updating state
@@ -26,7 +26,7 @@ export default function App() {
       { text: enteredGoalText, id: Math.random().toString() },
     ]);
     endAddGoalHandler();
-  }
+  };
 
   const deleteGoalHandler = (id) => {
     setCourseGoals((currentCourseGoals) => {
